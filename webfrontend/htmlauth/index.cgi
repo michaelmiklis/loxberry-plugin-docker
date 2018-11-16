@@ -12,12 +12,12 @@ my $version = LoxBerry::System::pluginversion();
 my $cgi = CGI->new;
 $cgi->import_names('R');
 # Ab jetzt kann beispielsweise ein POST-Parameter 'form' ausgelesen werden mit $R::form.
- 
+
+our $htmlhead = "<link rel='stylesheet' href='docker.css'></link>";
  
 # Wir Übergeben die Titelzeile (mit Versionsnummer), einen Link ins Wiki und das Hilfe-Template.
 # Um die Sprache der Hilfe brauchen wir uns im Code nicht weiter zu kümmern.
 LoxBerry::Web::lbheader("Docker", "www.docker.com", "help.html");
-  
 
 # Wir initialisieren unser Template. Der Pfad zum Templateverzeichnis steht in der globalen Variable $lbptemplatedir.
 
@@ -35,6 +35,11 @@ my $template = HTML::Template->new(
 # wir auch noch einen Hash zurück.
 my %L = LoxBerry::System::readlanguage($template, "language.ini");
 
+# ---------------------------------------------------
+# Localized Labels from language.ini
+# ---------------------------------------------------
+$template->param( lblNoNewWindowText => $L{'DOCKER.lblNoNewWindowText'} );
+$template->param( btnOpenInNewWindow => $L{'DOCKER.btnOpenInNewWindow'} );
 
 # Nun wird das Template ausgegeben.
 print $template->output();

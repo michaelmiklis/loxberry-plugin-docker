@@ -60,17 +60,37 @@ echo "<INFO> Plugin Data folder is: $PDATA"
 echo "<INFO> Plugin Log folder (on RAMDISK!) is: $PLOG"
 echo "<INFO> Plugin CONFIG folder is: $PCONFIG"
 
+# check if docker is already installed, otherwise install
+if  [ ! -f "/usr/bin/docker" ]
+then
+	# install docker
+	curl -fsSL https://get.docker.com -o get-docker.sh
+	sh get-docker.sh
+	usermod -aG docker loxberry
+fi
 
-# install docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-usermod -aG docker loxberry
 
-# pull portainer docker image
-docker pull portainer
+# if portainer container does not exists
+container=$(docker ps --filter name=portainer -q)
+if [ "$container" == "" ]
+then
 
-# start portainer container
-docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer
+	# check if stopped portainer container exists
+	container=$(docker ps -a --filter name=portainer -q)
+	if ! [ "$container" == "" ]
+	then
+
+		# remove stopped portainer container
+		docker rm portainer
+
+	fi
+
+	# pull portainer docker image
+	docker pull portainer/portainer:1.19.1
+
+	# start portainer container
+	docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer:1.19.1
+fi
 
 # Exit with Status 0
 exit 0
