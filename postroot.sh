@@ -70,6 +70,28 @@ then
 fi
 
 
+# if nginx container does not exists
+container=$(docker ps --filter name=nginx -q)
+if [ "$container" == "" ]
+then
+
+	# check if stopped nginx container exists
+	container=$(docker ps -a --filter name=nginx -q)
+	if ! [ "$container" == "" ]
+	then
+
+		# remove stopped nginx container
+		docker rm nginx
+
+	fi
+
+	# pull nginx docker image
+	docker pull library/nginx:1.15.6
+
+	# start nginx container
+	docker run --volume=/opt/loxberry/config/plugins/docker/nginx.conf:/etc/nginx/nginx.conf:ro --volume=/opt/loxberry:/opt/loxberry:ro -p=11001:11001 --name="nginx" --restart="unless-stopped" --detach=true library/nginx:1.15.6
+fi
+
 # if portainer container does not exists
 container=$(docker ps --filter name=portainer -q)
 if [ "$container" == "" ]
