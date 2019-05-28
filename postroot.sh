@@ -76,6 +76,7 @@ EOF
 	a2enconf portainer
 	if apachectl configtest
 	then
+	        systemctl daemon-reload
 		systemctl restart apache2
 	fi
 fi
