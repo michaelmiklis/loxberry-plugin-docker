@@ -60,6 +60,26 @@ echo "<INFO> Plugin Data folder is: $PDATA"
 echo "<INFO> Plugin Log folder (on RAMDISK!) is: $PLOG"
 echo "<INFO> Plugin CONFIG folder is: $PCONFIG"
 
+# check if mod_headers is enabled in apache2, otherwise enable them
+if [ ! -f "/etc/apache2/mods-enabled/headers.load" ]
+then
+        # enable mod_headers
+	a2enmod headers
+	# create the portainer configuration file to disable X-Frame-Options
+	cat << EOF > /etc/apache2/conf-available/portainer.conf
+#
+# Disable the X-Frame-Options for portainer in Loxberry
+Header always unset "X-Frame-Options"
+Header unset "X-Frame-Options"
+EOF
+	# enable the portainer configuration for apache2
+	a2enconf portainer
+	if apachectl configtest
+	then
+		systemctl restart apache2
+	fi
+fi
+
 # check if docker is already installed, otherwise install
 if  [ ! -f "/usr/bin/docker" ]
 then
