@@ -15,6 +15,7 @@ https://www.loxforum.com/forum/projektforen/loxberry/plugins/165754-plugin-docke
 ## Change-Log
 - 2018-08-27 Release 1.0.0 - Initial release of version 1.0.0
 - 2018-11-16 Release 1.1.0 - Larger iFrame size, Portainer 1.9.1
+- 2019-05-28 Release 1.1.1 - Portainer Latest (fixed the iFrame issue in the apache config)
 
 ## Known-Issues
 Newer Portainer versions like 1.9.2. will not run inside an iFrame. Therefore this Plugin uses Portainer 1.9.1. Once this is fixed by portainer.io, this Plugin will be updated.

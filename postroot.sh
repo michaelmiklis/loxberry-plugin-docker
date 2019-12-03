@@ -86,10 +86,31 @@ then
 	fi
 
 	# pull portainer docker image
-	docker pull portainer/portainer:1.19.1
+	docker pull portainer/portainer:latest
 
 	# start portainer container
-	docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer:1.19.1
+	docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer:latest
+fi
+
+# check if mod_headers is enabled in apache2, otherwise enable them
+if [ ! -f "/etc/apache2/mods-enabled/headers.load" ]
+then
+        # enable mod_headers
+	a2enmod headers
+	# create the portainer configuration file to disable X-Frame-Options
+	cat << EOF > /etc/apache2/conf-available/portainer.conf
+#
+# Disable the X-Frame-Options for portainer in Loxberry
+Header always unset "X-Frame-Options"
+Header unset "X-Frame-Options"
+EOF
+	# enable the portainer configuration for apache2
+	a2enconf portainer
+	if apachectl configtest
+	then
+	        systemctl daemon-reload
+		systemctl restart apache2
+	fi
 fi
 
 # Exit with Status 0
