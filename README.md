@@ -18,4 +18,4 @@ https://www.loxforum.com/forum/projektforen/loxberry/plugins/165754-plugin-docke
 - 2019-12-22 Release 1.2.0 - Updated to Portainer 1.23.0
 
 ## Known-Issues
-Newer Portainer versions like 1.9.2. will not run inside an iFrame. Therefore this Plugin uses Portainer 1.9.1. Once this is fixed by portainer.io, this Plugin will be updated.
+None
