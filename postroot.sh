@@ -86,10 +86,10 @@ then
 	fi
 
 	# pull portainer docker image
-	docker pull portainer/portainer:1.23.0
+	docker pull portainer/portainer-ce:linux-arm
 
 	# start portainer container
-	docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer:1.23.0
+	docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer-ce:linux-arm
 fi
 
 # Exit with Status 0
