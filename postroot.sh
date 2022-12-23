@@ -70,26 +70,24 @@ then
 fi
 
 
-# if portainer container does not exists
-container=$(docker ps --filter name=portainer -q)
+# check if container ist in the corret version
+container=$(docker ps --filter ancestor=portainer/portainer-ce:latest --filter name=portainer -q)
 if [ "$container" == "" ]
 then
 
-	# check if stopped portainer container exists
+	# check if container with name portainer exists
 	container=$(docker ps -a --filter name=portainer -q)
 	if ! [ "$container" == "" ]
 	then
-
 		# remove stopped portainer container
-		docker rm portainer
-
+		docker rm --force portainer
 	fi
 
 	# pull portainer docker image
-	docker pull portainer/portainer:1.23.0
+	docker pull portainer/portainer-ce:latest
 
 	# start portainer container
-	docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer:1.23.0
+	docker run --volume=/var/run/docker.sock:/var/run/docker.sock --volume=/opt/portainer:/data -p=9000:9000 --name="portainer" --restart="unless-stopped" --detach=true portainer/portainer-ce:latest
 fi
 
 # Exit with Status 0

@@ -13,10 +13,12 @@ This plugin will be improved over time and feedback is appreciated. Therefore I 
 https://www.loxforum.com/forum/projektforen/loxberry/plugins/165754-plugin-docker-und-portainer-io
 
 ## Change-Log
+- 2022-12-13 Release 2.0.2 - Changed to portainer/portainer-ce:latest
 - 2019-12-31 Release 2.0.1 - Support for Loxberry 2.0.0.4 and above, Portainer 1.23.0
 - 2018-08-27 Release 1.0.0 - Initial release of version 1.0.0
 - 2018-11-16 Release 1.1.0 - Larger iFrame size, Portainer 1.19.1
 - 2019-12-22 Release 1.2.0 - Updated to Portainer 1.23.0
+
 
 ## Known-Issues
 None
